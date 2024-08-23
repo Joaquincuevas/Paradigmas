@@ -1,13 +1,18 @@
-from Robot import Robot
-from typing import List
 from collections import defaultdict
-from batalla import Battle
+
+from battle import Battle
+from robot import Robot
 
 
-class League:
-    def __init__(self, robots: List[Robot]):
+class Competition:
+    def __init__(self, robots: list[Robot]) -> None:
         self.robots = robots
         self.results = defaultdict(lambda: {"wins": 0, "losses": 0, "total_turns": 0})
+
+
+class League(Competition):
+    def __init__(self, robots: list[Robot]) -> None:
+        super().__init__(robots)
 
     def conduct_league(self):
         for i, robot1 in enumerate(self.robots):

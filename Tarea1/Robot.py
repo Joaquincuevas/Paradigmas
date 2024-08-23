@@ -1,6 +1,6 @@
-from Ataques import Attack
+from attack import Attack
 from typing import List
-from Habilidades import Skill
+from skill import Skill
 import random
 
 

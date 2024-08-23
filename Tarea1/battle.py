@@ -1,7 +1,7 @@
 import random
 
-from Ataques import Attack
-from Robot import Robot
+from attack import Attack
+from robot import Robot
 
 
 class Battle:
