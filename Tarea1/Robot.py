@@ -1,8 +1,8 @@
-from abc import abstractmethod
-from attack import Attack
-from typing import List
-from skill import Skill
 import random
+from abc import abstractmethod
+
+from attack import Attack
+from skill import Skill
 
 
 class Opponent:
@@ -11,6 +11,9 @@ class Opponent:
 
     @abstractmethod
     def select_attack(self): ...
+
+    @abstractmethod
+    def do_attack_to(self, opp): ...
 
     @abstractmethod
     def get_attacks(self) -> list[Attack]: ...
@@ -33,7 +36,7 @@ class Opponent:
 
 class Robot(Opponent):
     def __init__(
-        self, name: str, energy: int, attacks: List[Attack], skills: List[Skill]
+        self, name: str, energy: int, attacks: list[Attack], skills: list[Skill]
     ):
         self.max_energy = energy
         self.current_energy = energy
@@ -50,12 +53,29 @@ class Robot(Opponent):
             return None
         return random.choice(available_attacks)
 
+    def do_attack_to(self, opp):
+        attack = self.select_attack()
+
+        if attack and random.randint(1, 100) <= attack.precision:
+            # Apply damage
+            # TODO: Apply skill effects here (e.g., shields, steroids)
+            opp.receive_damage(attack.damage)
+
+            attack.cooldown = attack.recharge
+
+        elif attack:
+            # Set attack cooldown
+            attack.cooldown = attack.recharge
+
     def receive_damage(self, damage: int):
+        # Activate defensive skills
+        self.activate_skills("energy")
         self.current_energy = max(0, self.current_energy - damage)
 
     def is_defeated(self) -> bool:
         return self.current_energy <= 0
 
+    # TODO: Implement other skill triggers
     def activate_skills(self, trigger: str, value: int | None = None):
         for skill in self.skills:
             if skill.trigger == trigger:
@@ -83,20 +103,55 @@ class Robot(Opponent):
 
 
 class Team(Opponent):
-    def __init__(self, name, teammates: list[Robot]) -> None:
+    def __init__(self, name, teammates: list[Robot], current_robot=None) -> None:
         self.teammates = teammates
+        self.current_robot: Robot = teammates[0] if not current_robot else current_robot
+        self.current_index: int = 0
         super().__init__(name)
 
-    def select_attack(self): ...
+    def swap_current_robot(self):
+        # Avanza el índice al siguiente robot en la lista
+        self.current_index = (self.current_index + 1) % len(self.teammates)
+        self.current_robot = self.teammates[self.current_index]
 
-    def get_attacks(self) -> list[Attack]: ...
+        return self.current_robot
 
-    def receive_damage(self, damage: int): ...
+    def select_attack(self):
+        self.current_robot.select_attack()
+        self.swap_current_robot()
 
-    def is_defeated(self) -> bool: ...
+    def do_attack_to(self, opp):
+        attack = self.select_attack()
 
-    def activate_skills(self, trigger: str, value: int | None = None): ...
+        if attack and random.randint(1, 100) <= attack.precision:
+            # Apply damage
+            # TODO: Apply skill effects here (e.g., shields, steroids)
+            opp.receive_damage(attack.damage)
 
-    def update_skill_durations(self): ...
+            attack.cooldown = attack.recharge
 
-    def reset_for_battle(self): ...
+        elif attack:
+            # Set attack cooldown
+            attack.cooldown = attack.recharge
+        self.swap_current_robot()
+
+    def get_attacks(self) -> list[Attack]:
+        attacks = self.current_robot.get_attacks()
+        self.swap_current_robot()
+        return attacks
+
+    def receive_damage(self, damage: int):
+        self.current_robot.receive_damage(damage)
+
+    def is_defeated(self) -> bool:
+        return all(map(lambda robot: robot.is_defeated(), self.teammates))
+
+    def activate_skills(self, trigger: str, value: int | None = None):
+        self.current_robot.activate_skills(trigger, value)
+
+    def update_skill_durations(self):
+        self.current_robot.update_skill_durations()
+
+    def reset_for_battle(self):
+        for robot in self.teammates:
+            robot.reset_for_battle()

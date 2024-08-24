@@ -14,7 +14,7 @@ class Competition:
     def conduct_competition(self): ...
 
     @abstractmethod
-    def get_league_standings(self): ...
+    def get_competition_standings(self): ...
 
 
 class League(Competition):
@@ -34,9 +34,9 @@ class League(Competition):
                 self.results[loser.name]["losses"] += 1
                 self.results[loser.name]["total_turns"] += turns
 
-        return self.get_league_standings()
+        return self.get_competition_standings()
 
-    def get_league_standings(self):
+    def get_competition_standings(self):
         standings = sorted(
             self.results.items(),
             key=lambda x: (x[1]["wins"], -x[1]["losses"]),
