@@ -1,0 +1,88 @@
+{
+  "robots": [
+    {
+      "name": "fuego",
+      "energy": 75,
+      "attacks": [
+        {
+          "name": "arco",
+          "type": "long",
+          "objetive": "team",
+          "damage": 20,
+          "precision": 80,
+          "recharge": 1
+        },
+        {
+          "name": "cabezazo",
+          "type": "hand",
+          "objetive": "robot",
+          "damage": 15,
+          "precision": 95,
+          "recharge": 0
+        }
+      ],
+      "skills": [
+        {
+          "name": "posi n",
+          "trigger": "energy",
+          "trigger_value": 30,
+          "duration": 2,
+          "objetive": "team",
+          "effect": "magic",
+          "effect_value": 20
+        },
+        {
+          "name": "fuerza lenta",
+          "trigger": "turns",
+          "trigger_value": 3,
+          "duration": 1,
+          "objetive": "robot",
+          "effect": "steroids",
+          "effect_value": 30
+        }
+      ]
+    },
+    {
+      "name": "fuego",
+      "energy": 75,
+      "attacks": [
+        {
+          "name": "arco",
+          "type": "long",
+          "objetive": "team",
+          "damage": 20,
+          "precision": 80,
+          "recharge": 1
+        },
+        {
+          "name": "cabezazo",
+          "type": "hand",
+          "objetive": "robot",
+          "damage": 15,
+          "precision": 95,
+          "recharge": 0
+        }
+      ],
+      "skills": [
+        {
+          "name": "posi n",
+          "trigger": "energy",
+          "trigger_value": 30,
+          "duration": 2,
+          "objetive": "team",
+          "effect": "magic",
+          "effect_value": 20
+        },
+        {
+          "name": "fuerza lenta",
+          "trigger": "turns",
+          "trigger_value": 3,
+          "duration": 1,
+          "objetive": "robot",
+          "effect": "steroids",
+          "effect_value": 30
+        }
+      ]
+    }
+  ]
+}
