@@ -1,15 +1,27 @@
-from Robot import Robot
-from typing import List
+from abc import ABC, abstractmethod
 from collections import defaultdict
-from batalla import Battle
+
+from battle import Battle
+from robot import Robot
 
 
-class League:
-    def __init__(self, robots: List[Robot]):
+class Competition(ABC):
+    def __init__(self, robots: list[Robot]) -> None:
         self.robots = robots
         self.results = defaultdict(lambda: {"wins": 0, "losses": 0, "total_turns": 0})
 
-    def conduct_league(self):
+    @abstractmethod
+    def conduct_competition(self): ...
+
+    @abstractmethod
+    def get_competition_standings(self): ...
+
+
+class League(Competition):
+    def __init__(self, robots: list[Robot]) -> None:
+        super().__init__(robots)
+
+    def conduct_competition(self):
         for i, robot1 in enumerate(self.robots):
             for robot2 in self.robots[i + 1 :]:
                 battle = Battle(robot1, robot2)
@@ -22,12 +34,22 @@ class League:
                 self.results[loser.name]["losses"] += 1
                 self.results[loser.name]["total_turns"] += turns
 
-        return self.get_league_standings()
+        return self.get_competition_standings()
 
-    def get_league_standings(self):
+    def get_competition_standings(self):
         standings = sorted(
             self.results.items(),
             key=lambda x: (x[1]["wins"], -x[1]["losses"]),
             reverse=True,
         )
         return standings
+
+
+class Playoff(Competition):
+    # TODO: PROXIMA ENTREGA
+    ...
+
+
+class Torneo(Competition):
+    # TODO: PROXIMA ENTREGA
+    ...
