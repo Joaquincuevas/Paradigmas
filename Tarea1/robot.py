@@ -1,37 +1,37 @@
 import random
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from attack import Attack
 from skill import Skill
 
 
-class Opponent:
+class Opponent(ABC):
     def __init__(self, name) -> None:
         self.name = name
 
     @abstractmethod
-    def select_attack(self): ...
+    def select_attack(self) -> None: ...
 
     @abstractmethod
-    def do_attack_to(self, opp): ...
+    def do_attack_to(self, opp) -> None: ...
 
     @abstractmethod
     def get_attacks(self) -> list[Attack]: ...
 
     @abstractmethod
-    def receive_damage(self, damage: int): ...
+    def receive_damage(self, damage: int) -> None: ...
 
     @abstractmethod
     def is_defeated(self) -> bool: ...
 
     @abstractmethod
-    def activate_skills(self, trigger: str, value: int | None = None): ...
+    def activate_skills(self, trigger: str, value: int | None = None) -> None: ...
 
     @abstractmethod
-    def update_skill_durations(self): ...
+    def update_skill_durations(self) -> None: ...
 
     @abstractmethod
-    def reset_for_battle(self): ...
+    def reset_for_battle(self) -> None: ...
 
 
 class Robot(Opponent):
@@ -103,7 +103,9 @@ class Robot(Opponent):
 
 
 class Team(Opponent):
-    def __init__(self, name, teammates: list[Robot], current_robot=None) -> None:
+    def __init__(
+        self, name, teammates: list[Robot], current_robot: Robot | None = None
+    ) -> None:
         self.teammates = teammates
         self.current_robot: Robot = teammates[0] if not current_robot else current_robot
         self.current_index: int = 0

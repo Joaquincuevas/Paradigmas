@@ -3,17 +3,17 @@ from pydantic import BaseModel, conint
 
 
 class Attack(BaseModel):
-    """Represent an attack in game
-
+    """
+    Represent an attack in game
     Example:
-        Attack(
-                        name="Flame Thrower",
-                        type="long",
-                        objetive="robot",
-                        damage=30,
-                        precision=80,
-                        recharge=1,
-                    )
+    Attack(
+        name="Flame Thrower",
+        type="long",
+        objetive="robot",
+        damage=30,
+        precision=80,
+        recharge=1,
+        )
     Attributes:
         name: The name of the attack.
         type : The type of attack, either ranged ("long"), direct weapon attack ("sword"), or hand-to-hand combat ("hand").

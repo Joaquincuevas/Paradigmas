@@ -1,11 +1,11 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from collections import defaultdict
 
 from battle import Battle
 from robot import Robot
 
 
-class Competition:
+class Competition(ABC):
     def __init__(self, robots: list[Robot]) -> None:
         self.robots = robots
         self.results = defaultdict(lambda: {"wins": 0, "losses": 0, "total_turns": 0})
