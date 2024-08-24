@@ -1,10 +1,10 @@
 from attack import Attack
-from skill import Skill
-from robot import Robot
 from competition import League
+from robot import Robot
+from skill import Skill
 
 
-def create_sample_robots():
+def create_sample_robots() -> list[Robot]:
     # Create sample robots with attacks and skills
     # This is a simplified version, you'd typically load this from a JSON file
     robot1 = Robot(
@@ -45,7 +45,7 @@ def create_sample_robots():
 def main():
     robots = create_sample_robots()
     league = League(robots)
-    standings = league.conduct_league()
+    standings = league.conduct_competition()
 
     print("League Results:")
     for rank, (name, results) in enumerate(standings, 1):

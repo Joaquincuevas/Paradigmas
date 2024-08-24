@@ -1,18 +1,48 @@
+from abc import abstractmethod
 from attack import Attack
 from typing import List
 from skill import Skill
 import random
 
 
-class Robot:
+class Opponent:
+    def __init__(self, name) -> None:
+        self.name = name
+
+    @abstractmethod
+    def select_attack(self): ...
+
+    @abstractmethod
+    def get_attacks(self) -> list[Attack]: ...
+
+    @abstractmethod
+    def receive_damage(self, damage: int): ...
+
+    @abstractmethod
+    def is_defeated(self) -> bool: ...
+
+    @abstractmethod
+    def activate_skills(self, trigger: str, value: int | None = None): ...
+
+    @abstractmethod
+    def update_skill_durations(self): ...
+
+    @abstractmethod
+    def reset_for_battle(self): ...
+
+
+class Robot(Opponent):
     def __init__(
         self, name: str, energy: int, attacks: List[Attack], skills: List[Skill]
     ):
-        self.name = name
         self.max_energy = energy
         self.current_energy = energy
         self.attacks = attacks
         self.skills = skills
+        super().__init__(name)
+
+    def get_attacks(self):
+        return self.attacks
 
     def select_attack(self) -> Attack | None:
         available_attacks = [attack for attack in self.attacks if attack.cooldown == 0]
@@ -50,3 +80,23 @@ class Robot:
         for skill in self.skills:
             skill.active = False
             skill.remaining_duration = 0
+
+
+class Team(Opponent):
+    def __init__(self, name, teammates: list[Robot]) -> None:
+        self.teammates = teammates
+        super().__init__(name)
+
+    def select_attack(self): ...
+
+    def get_attacks(self) -> list[Attack]: ...
+
+    def receive_damage(self, damage: int): ...
+
+    def is_defeated(self) -> bool: ...
+
+    def activate_skills(self, trigger: str, value: int | None = None): ...
+
+    def update_skill_durations(self): ...
+
+    def reset_for_battle(self): ...
