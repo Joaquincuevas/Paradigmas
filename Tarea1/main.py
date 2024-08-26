@@ -1,4 +1,4 @@
-from competition import League
+from league import League
 from DataJSON import load_file, load_opponents
 
 

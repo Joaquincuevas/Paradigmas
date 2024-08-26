@@ -2,7 +2,7 @@ import csv
 
 import matplotlib.pyplot as plt
 
-from robot import Opponent
+from opponent import Opponent
 
 
 class Report:

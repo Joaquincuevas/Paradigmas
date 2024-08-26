@@ -1,7 +1,8 @@
 import json
 
 from attack import Attack
-from robot import Robot, Team
+from robot import Robot
+from team import Team
 from skill import Skill
 
 
