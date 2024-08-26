@@ -1,8 +1,9 @@
 import json
-from robot import Robot #no entiendo porque no me toman
-from team import Team
+from robot import Robot
+from robot import Team
 from attack import Attack
 from skill import Skill
+
 
 class Tournament:
     def __init__(self):
@@ -21,14 +22,27 @@ class Tournament:
 
                 # Cargar ataques
                 for at in mr["attacks"]:
-                    attack = Attack(at["name"], at["type"], at["objective"], 
-                                    at["damage"], at["precision"], at["recharge"])
+                    attack = Attack(
+                        at["name"],
+                        at["type"],
+                        at["objective"],
+                        at["damage"],
+                        at["precision"],
+                        at["recharge"],
+                    )
                     robot.add_attack(attack)
 
                 # Cargar habilidades
                 for sk in mr["skills"]:
-                    skill = Skill(sk["name"], sk["trigger"], sk["trigger_value"], 
-                                  sk["duration"], sk["objective"], sk["effect"], sk["effect_value"])
+                    skill = Skill(
+                        sk["name"],
+                        sk["trigger"],
+                        sk["trigger_value"],
+                        sk["duration"],
+                        sk["objective"],
+                        sk["effect"],
+                        sk["effect_value"],
+                    )
                     robot.add_skill(skill)
 
                 self.robots.append(robot)

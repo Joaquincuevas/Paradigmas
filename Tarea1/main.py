@@ -12,13 +12,21 @@ def create_sample_robots() -> list[Robot]:
         100,
         [
             Attack(
+                name="Water Cannon",
+                type="long",
+                objetive="robot",
+                damage=25,
+                precision=90,
+                recharge=0,
+            ),
+            Attack(
                 name="Flame Thrower",
                 type="long",
                 objetive="robot",
                 damage=30,
                 precision=80,
                 recharge=1,
-            )
+            ),
         ],
         [Skill("Heat Shield", "energy", 30, 2, "robot", "shield", 20)],
     )
@@ -34,24 +42,43 @@ def create_sample_robots() -> list[Robot]:
                 damage=25,
                 precision=90,
                 recharge=0,
-            )
+            ),
+            Attack(
+                name="Flame Thrower",
+                type="long",
+                objetive="robot",
+                damage=30,
+                precision=80,
+                recharge=1,
+            ),
         ],
         [Skill("Steam Boost", "turns", 3, 1, "robot", "steroids", 30)],
     )
 
-    return [robot1, robot2]
+    robot3 = Robot(
+        "Robot3",
+        100,
+        [
+            Attack(
+                name="Flame Thrower",
+                type="long",
+                objetive="robot",
+                damage=30,
+                precision=80,
+                recharge=1,
+            )
+        ],
+        [Skill("Heat Shield", "energy", 30, 2, "robot", "shield", 20)],
+    )
+
+    return [robot1, robot2, robot3]
 
 
 def main():
     robots = create_sample_robots()
     league = League(robots)
-    standings = league.conduct_competition()
-
-    print("League Results:")
-    for rank, (name, results) in enumerate(standings, 1):
-        print(
-            f"{rank}. {name}: Wins: {results['wins']}, Losses: {results['losses']}, Total Turns: {results['total_turns']}"
-        )
+    league.play()
+    league.report.plot()
 
 
 if __name__ == "__main__":

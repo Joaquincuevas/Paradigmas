@@ -1,48 +1,35 @@
 from abc import ABC, abstractmethod
-from collections import defaultdict
+from itertools import combinations
 
 from battle import Battle
-from robot import Robot
+from report import Report
+from robot import Opponent, Robot
 
 
 class Competition(ABC):
     def __init__(self, robots: list[Robot]) -> None:
         self.robots = robots
-        self.results = defaultdict(lambda: {"wins": 0, "losses": 0, "total_turns": 0})
+        self.report: Report = Report()
 
+    @property
     @abstractmethod
-    def conduct_competition(self): ...
-
-    @abstractmethod
-    def get_competition_standings(self): ...
+    def draw(self) -> list[tuple[Opponent, Opponent]]:
+        return list(combinations(self.robots, 2))
 
 
 class League(Competition):
     def __init__(self, robots: list[Robot]) -> None:
         super().__init__(robots)
 
-    def conduct_competition(self):
-        for i, robot1 in enumerate(self.robots):
-            for robot2 in self.robots[i + 1 :]:
-                battle = Battle(robot1, robot2)
-                winner, turns = battle.conduct_battle()
+    @property
+    def draw(self) -> list[tuple[Opponent, Opponent]]:
+        return super().draw
 
-                loser = robot2 if winner == robot1 else robot1
-
-                self.results[winner.name]["wins"] += 1
-                self.results[winner.name]["total_turns"] += turns
-                self.results[loser.name]["losses"] += 1
-                self.results[loser.name]["total_turns"] += turns
-
-        return self.get_competition_standings()
-
-    def get_competition_standings(self):
-        standings = sorted(
-            self.results.items(),
-            key=lambda x: (x[1]["wins"], -x[1]["losses"]),
-            reverse=True,
-        )
-        return standings
+    def play(self):
+        for match in self.draw:
+            battle = Battle(match)
+            battle.play()
+            self.report.battles_log.append(battle.log)
 
 
 class Playoff(Competition):
@@ -50,6 +37,6 @@ class Playoff(Competition):
     ...
 
 
-class Torneo(Competition):
+class Tournament(Competition):
     # TODO: PROXIMA ENTREGA
     ...

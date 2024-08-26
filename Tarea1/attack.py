@@ -1,4 +1,5 @@
 from typing import Literal
+
 from pydantic import BaseModel, conint
 
 
@@ -29,4 +30,8 @@ class Attack(BaseModel):
     damage: conint(gt=0)  # type: ignore
     precision: conint(gt=10, lt=100)  # type: ignore
     recharge: conint(ge=0)  # type: ignore
-    cooldown: int = 0
+    _cooldown: int = 0
+    _usage: int = 0
+
+    def add_use(self):
+        self._usage += 1

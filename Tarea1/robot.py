@@ -1,5 +1,5 @@
-import random
 from abc import ABC, abstractmethod
+from random import choice, randint
 
 from attack import Attack
 from skill import Skill
@@ -8,9 +8,14 @@ from skill import Skill
 class Opponent(ABC):
     def __init__(self, name) -> None:
         self.name = name
+        self.turn_count = 0
 
     @abstractmethod
-    def select_attack(self) -> None: ...
+    def __repr__(self) -> str:
+        return self.name
+
+    @abstractmethod
+    def _select_attack(self) -> None: ...
 
     @abstractmethod
     def do_attack_to(self, opp) -> None: ...
@@ -30,9 +35,6 @@ class Opponent(ABC):
     @abstractmethod
     def update_skill_durations(self) -> None: ...
 
-    @abstractmethod
-    def reset_for_battle(self) -> None: ...
-
 
 class Robot(Opponent):
     def __init__(
@@ -44,28 +46,35 @@ class Robot(Opponent):
         self.skills = skills
         super().__init__(name)
 
+    def __repr__(self) -> str:
+        return super().__repr__()
+
     def get_attacks(self):
         return self.attacks
 
-    def select_attack(self) -> Attack | None:
-        available_attacks = [attack for attack in self.attacks if attack.cooldown == 0]
+    def _select_attack(self) -> Attack | None:
+        available_attacks = [attack for attack in self.attacks if attack._cooldown == 0]
         if not available_attacks:
             return None
-        return random.choice(available_attacks)
+        attack = choice(available_attacks)
+        attack.add_use()
+
+        return attack
 
     def do_attack_to(self, opp):
-        attack = self.select_attack()
+        attack = self._select_attack()
+        self.turn_count += 1
 
-        if attack and random.randint(1, 100) <= attack.precision:
+        if attack and randint(1, 100) <= attack.precision:
             # Apply damage
             # TODO: Apply skill effects here (e.g., shields, steroids)
             opp.receive_damage(attack.damage)
 
-            attack.cooldown = attack.recharge
+            attack._cooldown = attack.recharge
 
         elif attack:
             # Set attack cooldown
-            attack.cooldown = attack.recharge
+            attack._cooldown = attack.recharge
 
     def receive_damage(self, damage: int):
         # Activate defensive skills
@@ -93,14 +102,6 @@ class Robot(Opponent):
                 if skill.remaining_duration == 0:
                     skill.active = False
 
-    def reset_for_battle(self):
-        self.current_energy = self.max_energy
-        for attack in self.attacks:
-            attack.cooldown = 0
-        for skill in self.skills:
-            skill.active = False
-            skill.remaining_duration = 0
-
 
 class Team(Opponent):
     def __init__(
@@ -111,6 +112,9 @@ class Team(Opponent):
         self.current_index: int = 0
         super().__init__(name)
 
+    def __repr__(self) -> str:
+        return super().__repr__()
+
     def swap_current_robot(self):
         # Avanza el índice al siguiente robot en la lista
         self.current_index = (self.current_index + 1) % len(self.teammates)
@@ -118,14 +122,14 @@ class Team(Opponent):
 
         return self.current_robot
 
-    def select_attack(self):
-        self.current_robot.select_attack()
+    def _select_attack(self):
+        self.current_robot._select_attack()
         self.swap_current_robot()
 
     def do_attack_to(self, opp):
-        attack = self.select_attack()
+        attack = self._select_attack()
 
-        if attack and random.randint(1, 100) <= attack.precision:
+        if attack and randint(1, 100) <= attack.precision:
             # Apply damage
             # TODO: Apply skill effects here (e.g., shields, steroids)
             opp.receive_damage(attack.damage)
@@ -153,7 +157,3 @@ class Team(Opponent):
 
     def update_skill_durations(self):
         self.current_robot.update_skill_durations()
-
-    def reset_for_battle(self):
-        for robot in self.teammates:
-            robot.reset_for_battle()
