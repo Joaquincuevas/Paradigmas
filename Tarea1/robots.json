@@ -1,86 +1,392 @@
 {
   "robots": [
     {
-      "name": "fuego",
-      "energy": 75,
+      "name": "Glaciar",
+      "energy": 80,
       "attacks": [
         {
-          "name": "arco",
+          "name": "Ventisca",
           "type": "long",
           "objetive": "team",
-          "damage": 20,
-          "precision": 80,
+          "damage": 15,
+          "precision": 90,
+          "recharge": 0
+        },
+        {
+          "name": "Congelamiento",
+          "type": "hand",
+          "objetive": "robot",
+          "damage": 10,
+          "precision": 85,
+          "recharge": 2
+        }
+      ],
+      "skills": [
+        {
+          "name": "Escudo gélido",
+          "trigger": "energy",
+          "trigger_value": 40,
+          "duration": 3,
+          "objetive": "robot",
+          "effect": "shield",
+          "effect_value": 25
+        },
+        {
+          "name": "Ralentización",
+          "trigger": "turns",
+          "trigger_value": 2,
+          "duration": 2,
+          "objetive": "team",
+          "effect": "slow",
+          "effect_value": 20
+        }
+      ]
+    },
+    {
+      "name": "Trueno",
+      "energy": 70,
+      "attacks": [
+        {
+          "name": "Rayo",
+          "type": "long",
+          "objetive": "robot",
+          "damage": 25,
+          "precision": 75,
           "recharge": 1
         },
         {
-          "name": "cabezazo",
+          "name": "Descarga eléctrica",
           "type": "hand",
-          "objetive": "robot",
-          "damage": 15,
-          "precision": 95,
+          "objetive": "team",
+          "damage": 12,
+          "precision": 90,
           "recharge": 0
         }
       ],
       "skills": [
         {
-          "name": "posi n",
+          "name": "Sobrecarga",
           "trigger": "energy",
-          "trigger_value": 30,
-          "duration": 2,
-          "objetive": "team",
-          "effect": "magic",
-          "effect_value": 20
-        },
-        {
-          "name": "fuerza lenta",
-          "trigger": "turns",
-          "trigger_value": 3,
+          "trigger_value": 20,
           "duration": 1,
           "objetive": "robot",
-          "effect": "steroids",
+          "effect": "damage boost",
+          "effect_value": 50
+        },
+        {
+          "name": "Parálisis",
+          "trigger": "turns",
+          "trigger_value": 4,
+          "duration": 1,
+          "objetive": "robot",
+          "effect": "stun",
+          "effect_value": 0
+        }
+      ]
+    },
+    {
+      "name": "Roca",
+      "energy": 90,
+      "attacks": [
+        {
+          "name": "Terremoto",
+          "type": "long",
+          "objetive": "team",
+          "damage": 18,
+          "precision": 80,
+          "recharge": 2
+        },
+        {
+          "name": "Aplastar",
+          "type": "hand",
+          "objetive": "robot",
+          "damage": 22,
+          "precision": 70,
+          "recharge": 1
+        }
+      ],
+      "skills": [
+        {
+          "name": "Piel de piedra",
+          "trigger": "energy",
+          "trigger_value": 50,
+          "duration": 2,
+          "objetive": "robot",
+          "effect": "defense boost",
+          "effect_value": 40
+        },
+        {
+          "name": "Regeneración",
+          "trigger": "turns",
+          "trigger_value": 3,
+          "duration": 3,
+          "objetive": "robot",
+          "effect": "heal",
+          "effect_value": 5
+        }
+      ]
+    },
+    {
+      "name": "Viento",
+      "energy": 65,
+      "attacks": [
+        {
+          "name": "Tornado",
+          "type": "long",
+          "objetive": "team",
+          "damage": 14,
+          "precision": 95,
+          "recharge": 0
+        },
+        {
+          "name": "Corte aéreo",
+          "type": "hand",
+          "objetive": "robot",
+          "damage": 16,
+          "precision": 80,
+          "recharge": 1
+        }
+      ],
+      "skills": [
+        {
+          "name": "Evasión",
+          "trigger": "energy",
+          "trigger_value": 30,
+          "duration": 1,
+          "objetive": "robot",
+          "effect": "dodge",
+          "effect_value": 100
+        },
+        {
+          "name": "Agilidad",
+          "trigger": "turns",
+          "trigger_value": 2,
+          "duration": 2,
+          "objetive": "robot",
+          "effect": "speed boost",
           "effect_value": 30
         }
       ]
     },
     {
-      "name": "fuego",
-      "energy": 75,
+      "name": "Planta",
+      "energy": 85,
       "attacks": [
         {
-          "name": "arco",
+          "name": "Esporas venenosas",
           "type": "long",
           "objetive": "team",
-          "damage": 20,
-          "precision": 80,
-          "recharge": 1
+          "damage": 8,
+          "precision": 90,
+          "recharge": 0
         },
         {
-          "name": "cabezazo",
+          "name": "Látigo de enredadera",
           "type": "hand",
           "objetive": "robot",
-          "damage": 15,
-          "precision": 95,
-          "recharge": 0
+          "damage": 13,
+          "precision": 85,
+          "recharge": 1
         }
       ],
       "skills": [
         {
-          "name": "posi n",
+          "name": "Fotosíntesis",
           "trigger": "energy",
-          "trigger_value": 30,
-          "duration": 2,
-          "objetive": "team",
-          "effect": "magic",
-          "effect_value": 20
+          "trigger_value": 40,
+          "duration": 3,
+          "objetive": "robot",
+          "effect": "heal",
+          "effect_value": 3
         },
         {
-          "name": "fuerza lenta",
+          "name": "Envenenar",
           "trigger": "turns",
-          "trigger_value": 3,
-          "duration": 1,
+          "trigger_value": 2,
+          "duration": 3,
           "objetive": "robot",
-          "effect": "steroids",
-          "effect_value": 30
+          "effect": "poison",
+          "effect_value": 2
+        }
+      ]
+    }
+  ],
+  "teams": [
+    {
+      "name": "Equipo Llama",
+      "robots": [
+        {
+          "name": "fuego",
+          "energy": 75,
+          "attacks": [
+            {
+              "name": "arco",
+              "type": "long",
+              "objetive": "team",
+              "damage": 20,
+              "precision": 80,
+              "recharge": 1
+            },
+            {
+              "name": "cabezazo",
+              "type": "hand",
+              "objetive": "robot",
+              "damage": 15,
+              "precision": 95,
+              "recharge": 0
+            }
+          ],
+          "skills": [
+            {
+              "name": "posi n",
+              "trigger": "energy",
+              "trigger_value": 30,
+              "duration": 2,
+              "objetive": "team",
+              "effect": "magic",
+              "effect_value": 20
+            },
+            {
+              "name": "fuerza lenta",
+              "trigger": "turns",
+              "trigger_value": 3,
+              "duration": 1,
+              "objetive": "robot",
+              "effect": "steroids",
+              "effect_value": 30
+            }
+          ]
+        },
+        {
+          "name": "Trueno",
+          "energy": 70,
+          "attacks": [
+            {
+              "name": "Rayo",
+              "type": "long",
+              "objetive": "robot",
+              "damage": 25,
+              "precision": 75,
+              "recharge": 1
+            },
+            {
+              "name": "Descarga eléctrica",
+              "type": "hand",
+              "objetive": "team",
+              "damage": 12,
+              "precision": 90,
+              "recharge": 0
+            }
+          ],
+          "skills": [
+            {
+              "name": "Sobrecarga",
+              "trigger": "energy",
+              "trigger_value": 20,
+              "duration": 1,
+              "objetive": "robot",
+              "effect": "damage boost",
+              "effect_value": 50
+            },
+            {
+              "name": "Parálisis",
+              "trigger": "turns",
+              "trigger_value": 4,
+              "duration": 1,
+              "objetive": "robot",
+              "effect": "stun",
+              "effect_value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Equipo Hielo",
+      "robots": [
+        {
+          "name": "Glaciar",
+          "energy": 80,
+          "attacks": [
+            {
+              "name": "Ventisca",
+              "type": "long",
+              "objetive": "team",
+              "damage": 15,
+              "precision": 90,
+              "recharge": 0
+            },
+            {
+              "name": "Congelamiento",
+              "type": "hand",
+              "objetive": "robot",
+              "damage": 10,
+              "precision": 85,
+              "recharge": 2
+            }
+          ],
+          "skills": [
+            {
+              "name": "Escudo gélido",
+              "trigger": "energy",
+              "trigger_value": 40,
+              "duration": 3,
+              "objetive": "robot",
+              "effect": "shield",
+              "effect_value": 25
+            },
+            {
+              "name": "Ralentización",
+              "trigger": "turns",
+              "trigger_value": 2,
+              "duration": 2,
+              "objetive": "team",
+              "effect": "slow",
+              "effect_value": 20
+            }
+          ]
+        },
+        {
+          "name": "Viento",
+          "energy": 65,
+          "attacks": [
+            {
+              "name": "Tornado",
+              "type": "long",
+              "objetive": "team",
+              "damage": 14,
+              "precision": 95,
+              "recharge": 0
+            },
+            {
+              "name": "Corte aéreo",
+              "type": "hand",
+              "objetive": "robot",
+              "damage": 16,
+              "precision": 80,
+              "recharge": 1
+            }
+          ],
+          "skills": [
+            {
+              "name": "Evasión",
+              "trigger": "energy",
+              "trigger_value": 30,
+              "duration": 1,
+              "objetive": "robot",
+              "effect": "dodge",
+              "effect_value": 100
+            },
+            {
+              "name": "Agilidad",
+              "trigger": "turns",
+              "trigger_value": 2,
+              "duration": 2,
+              "objetive": "robot",
+              "effect": "speed boost",
+              "effect_value": 30
+            }
+          ]
         }
       ]
     }

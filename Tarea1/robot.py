@@ -123,8 +123,8 @@ class Team(Opponent):
         return self.current_robot
 
     def _select_attack(self):
-        self.current_robot._select_attack()
-        self.swap_current_robot()
+        attack = self.current_robot._select_attack()
+        return attack
 
     def do_attack_to(self, opp):
         attack = self._select_attack()
@@ -134,23 +134,27 @@ class Team(Opponent):
             # TODO: Apply skill effects here (e.g., shields, steroids)
             opp.receive_damage(attack.damage)
 
-            attack.cooldown = attack.recharge
+            attack._cooldown = attack.recharge
 
         elif attack:
             # Set attack cooldown
-            attack.cooldown = attack.recharge
+            attack._cooldown = attack.recharge
         self.swap_current_robot()
 
     def get_attacks(self) -> list[Attack]:
-        attacks = self.current_robot.get_attacks()
-        self.swap_current_robot()
+        attacks = []
+        for robot in self.teammates:
+            attacks = attacks + (robot.get_attacks())
         return attacks
 
     def receive_damage(self, damage: int):
         self.current_robot.receive_damage(damage)
 
     def is_defeated(self) -> bool:
-        return all(map(lambda robot: robot.is_defeated(), self.teammates))
+        for robot in self.teammates:
+            if robot.is_defeated():
+                return True
+        return False
 
     def activate_skills(self, trigger: str, value: int | None = None):
         self.current_robot.activate_skills(trigger, value)

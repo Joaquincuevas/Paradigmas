@@ -3,11 +3,11 @@ from itertools import combinations
 
 from battle import Battle
 from report import Report
-from robot import Opponent, Robot
+from robot import Opponent, Robot, Team
 
 
 class Competition(ABC):
-    def __init__(self, robots: list[Robot]) -> None:
+    def __init__(self, robots: list[Robot] | list[Team] | list[Team | Robot]) -> None:
         self.robots = robots
         self.report: Report = Report()
 
@@ -18,7 +18,7 @@ class Competition(ABC):
 
 
 class League(Competition):
-    def __init__(self, robots: list[Robot]) -> None:
+    def __init__(self, robots: list[Robot] | list[Team] | list[Team | Robot]) -> None:
         super().__init__(robots)
 
     @property

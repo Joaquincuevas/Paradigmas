@@ -1,70 +1,82 @@
 import json
-from robot import Robot
-from robot import Team
+
 from attack import Attack
+from robot import Robot, Team
 from skill import Skill
 
 
-class Tournament:
-    def __init__(self):
-        self.robots = []
-        self.teams = []
+def load_opponents(opponents_data):
+    opponents = []
+    for opponent in opponents_data:
+        if opponent == "teams":
+            opponents = opponents + load_teams(opponents_data["teams"])
 
-    def load_robots(self, filename):
-        with open(filename, "r") as f:
-            data = json.load(f)
-            robots = {}
+        elif opponent == "robots":
+            opponents = opponents + load_robots(opponents_data["robots"])
+    return opponents
 
-            # Cargar robots
-            for mr in data["robots"]:
-                robot = Robot(mr["name"], mr["energy"])
-                robots[mr["name"]] = robot
 
-                # Cargar ataques
-                for at in mr["attacks"]:
-                    attack = Attack(
-                        at["name"],
-                        at["type"],
-                        at["objective"],
-                        at["damage"],
-                        at["precision"],
-                        at["recharge"],
-                    )
-                    robot.add_attack(attack)
+def load_file(file_name: str):
+    with open(file_name, "r") as f:
+        return json.load(f)
 
-                # Cargar habilidades
-                for sk in mr["skills"]:
-                    skill = Skill(
-                        sk["name"],
-                        sk["trigger"],
-                        sk["trigger_value"],
-                        sk["duration"],
-                        sk["objective"],
-                        sk["effect"],
-                        sk["effect_value"],
-                    )
-                    robot.add_skill(skill)
 
-                self.robots.append(robot)
+def load_teams(teams_data: list[dict]) -> list[Team]:
+    teams = []
+    for team_dict in teams_data:
+        teams.append(
+            Team(name=team_dict["name"], teammates=load_robots(team_dict["robots"]))
+        )
+    return teams
 
-            return robots  # Retorna el diccionario de robots
 
-    def load_teams(self, filename, robots):
-        with open(filename, "r") as f:
-            data = json.load(f)
-            teams = {}
+def load_robots(robots_data: list[dict]) -> list[Robot]:
+    robots = []
+    for robot_dict in robots_data:
+        robots.append(
+            Robot(
+                name=robot_dict["name"],
+                energy=robot_dict["energy"],
+                attacks=load_attacks(robot_dict["attacks"]),
+                skills=load_skills(robot_dict["skills"]),
+            )
+        )
+    return robots
 
-            # Cargar equipos
-            for team_data in data["teams"]:
-                team = Team(team_data["name"])
 
-                # Añadir robots al equipo
-                for robot_data in team_data["robots"]:
-                    robot_name = robot_data["name"]
-                    if robot_name in robots:
-                        team.add_robot(robots[robot_name])
+def load_attacks(attacks_data: list[dict]) -> list[Attack]:
+    attacks = []
+    for attack_dict in attacks_data:
+        attacks.append(
+            Attack(
+                name=attack_dict["name"],
+                type=attack_dict["type"],
+                objetive=attack_dict["objetive"],
+                damage=attack_dict["damage"],
+                precision=attack_dict["precision"],
+                recharge=attack_dict["recharge"],
+            )
+        )
+    return attacks
 
-                self.teams.append(team)
-                teams[team_data["name"]] = team
 
-            return teams  # Retorna el diccionario de equipos
+def load_skills(skills_data: list[dict]) -> list[Skill]:
+    skills = []
+    for skill_dict in skills_data:
+        skills.append(
+            Skill(
+                name=skill_dict["name"],
+                trigger=skill_dict["trigger"],
+                trigger_value=skill_dict["trigger_value"],
+                duration=skill_dict["duration"],
+                objective=skill_dict["objetive"],
+                effect=skill_dict["effect"],
+                effect_value=skill_dict["effect_value"],
+            )
+        )
+    return skills
+
+
+if __name__ == "__main__":
+    print(load_file("./robots.json"))
+    load_robots(load_file("./robots.json")["robots"])
