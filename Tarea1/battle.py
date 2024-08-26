@@ -1,34 +1,54 @@
+from copy import deepcopy
+from random import shuffle
+
 from robot import Opponent
 
 
 class Battle:
-    def __init__(self, opp1: Opponent, opp2: Opponent) -> None:
-        self.opp1 = opp1
-        self.opp2 = opp2
+    """Gestiona una batalla entre dos oponentes."""
+
+    def __init__(self, opponents: tuple[Opponent, Opponent] | list[Opponent]) -> None:
+        """Inicializa la batalla con dos oponentes."""
+        self.opponents = deepcopy(opponents)
         self.turn_count = 0
 
-    def conduct_battle(self):
-        self.opp1.reset_for_battle()
-        self.opp2.reset_for_battle()
+    def _draw(self):
+        "Elige quien comienza atacando y defendiendo al azar"
+        self.opponents = list(self.opponents)
+        shuffle(self.opponents)
+        self.attacker, self.defender = self.opponents
 
-        attacker, defender = self.opp1, self.opp2
+    def play(self):
+        """Ejecuta la batalla hasta que haya un ganador."""
+        self._draw()
 
-        while not self.opp1.is_defeated() and not self.opp2.is_defeated():
+        while True:
             self.turn_count += 1
+            self._activate_turn_based_skills()
+            self.attacker.do_attack_to(
+                self.defender
+            )  # Se cuenta un turno cada vez que ataca
 
-            # Activate turn-based skills
-            attacker.activate_skills("turns", self.turn_count)
+            if self.defender.is_defeated():
+                winner, loser = self.attacker, self.defender
+                break
 
-            attacker.do_attack_to(defender)
+            self._update_after_turn()
+            self._switch_roles()
 
-            # Update skill durations and cooldowns
-            attacker.update_skill_durations()
-            for attack in attacker.get_attacks():
-                if attack.cooldown > 0:
-                    attack.cooldown -= 1
-
-            # Switch roles
-            attacker, defender = defender, attacker
-
-        winner = self.opp1 if self.opp2.is_defeated() else self.opp2
+        self.log = {"winner": winner, "loser": loser}
         return winner, self.turn_count
+
+    def _activate_turn_based_skills(self):
+        """Activa habilidades basadas en el turno actual."""
+        self.attacker.activate_skills("turns", self.turn_count)
+
+    def _update_after_turn(self):
+        """Actualiza habilidades y cooldowns después del turno."""
+        self.attacker.update_skill_durations()
+        for attack in self.attacker.get_attacks():
+            attack._cooldown = max(0, attack._cooldown - 1)
+
+    def _switch_roles(self):
+        """Intercambia los roles de atacante y defensor."""
+        self.attacker, self.defender = self.defender, self.attacker
