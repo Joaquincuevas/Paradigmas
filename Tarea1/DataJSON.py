@@ -17,7 +17,7 @@ def load_opponents(opponents_data):
 
 
 def load_file(file_name: str):
-    with open(file_name, "r") as f:
+    with open(file_name, "r", encoding="UTF-8") as f:
         return json.load(f)
 
 
@@ -75,8 +75,3 @@ def load_skills(skills_data: list[dict]) -> list[Skill]:
             )
         )
     return skills
-
-
-if __name__ == "__main__":
-    print(load_file("./robots.json"))
-    load_robots(load_file("./robots.json")["robots"])

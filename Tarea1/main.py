@@ -7,7 +7,8 @@ def main():
     opponents = load_opponents(data_file)
     league = League(opponents)
     league.play()
-    print(league.report.results)
+    league.report.show_leaderboard()
+    league.report.export_leaderboard()
     league.report.plot()
 
 

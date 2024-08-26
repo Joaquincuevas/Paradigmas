@@ -1,3 +1,5 @@
+import csv
+
 import matplotlib.pyplot as plt
 
 from robot import Opponent
@@ -36,6 +38,13 @@ class Report:
             self._update_opponent_stats(results, battle["loser"], is_winner=False)
         return results
 
+    @property
+    def leaderboard(self):
+        return sorted(
+            self.results.items(),
+            key=lambda x: (-x[1]["wins"], x[1]["loss"], x[1]["turns"]),
+        )
+
     def plot(self):
         for opp, results in self.results.items():
             x = results["attacks"].keys()
@@ -44,3 +53,36 @@ class Report:
             ax.bar(x=x, height=y)
             plt.title(opp)
             plt.show()
+
+    def show_leaderboard(self):
+        sorted_teams = self.leaderboard
+        # Crear la tabla de clasificación
+
+        header = "{:^15} {:^15} {:^10} {:^10} {:^10}".format(
+            "Posición", "Participante", "Victorias", "Derrotas", "Turnos"
+        )
+
+        print("-" * len(header))
+        print(header)
+        print("-" * len(header))
+
+        for idx, (team, data) in enumerate(sorted_teams, start=1):
+            print(
+                "{:^15} {:^15} {:^10} {:^10} {:^10}".format(
+                    idx, team, data["wins"], data["loss"], data["turns"]
+                )
+            )
+
+    def export_leaderboard(self, filename="leaderboard.csv"):
+        # Ordenar los equipos por victorias, luego por derrotas y finalmente por turnos
+        leaderboard = self.leaderboard
+        # Escribir la tabla en un archivo CSV
+        with open(filename, mode="w", newline="", encoding="UTF-8") as file:
+            writer = csv.writer(file)
+
+            # Escribir la cabecera
+            writer.writerow(["Posición", "Equipo", "Victorias", "Derrotas", "Turnos"])
+
+            # Escribir los datos de cada equipo
+            for idx, (team, data) in enumerate(leaderboard, start=1):
+                writer.writerow([idx, team, data["wins"], data["loss"], data["turns"]])

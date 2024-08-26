@@ -128,6 +128,7 @@ class Team(Opponent):
 
     def do_attack_to(self, opp):
         attack = self._select_attack()
+        self.turn_count += 1
 
         if attack and randint(1, 100) <= attack.precision:
             # Apply damage
