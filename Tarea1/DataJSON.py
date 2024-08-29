@@ -14,6 +14,7 @@ def load_opponents(opponents_data):
 
         elif opponent == "robots":
             opponents = opponents + load_robots(opponents_data["robots"])
+    print("robots cargados...")
     return opponents
 
 

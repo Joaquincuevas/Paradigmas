@@ -14,7 +14,8 @@ class League(Competition):
         return super().draw
 
     def play(self):
-        for match in self.draw:
+        for n, match in enumerate(self.draw):
+            print(f"Comienza la batalla {n+1} {match[0]} v/s {match[1]}\n")
             battle = Battle(match)
             battle.play()
             self.report.battles_log.append(battle.log)

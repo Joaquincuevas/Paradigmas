@@ -33,7 +33,7 @@ class Robot(Opponent):
 
         return attack
 
-    def do_attack_to(self, opp):
+    def do_attack_to(self, opp: "Robot"):
         attack = self._select_attack()
         self.turn_count += 1
 
@@ -43,10 +43,16 @@ class Robot(Opponent):
             opp.receive_damage(attack.damage)
 
             attack._cooldown = attack.recharge
+            print(
+                f"{self.name} atacó a {opp.name} con {attack.name} e hizo {attack.damage}pt de daño a {opp.name} le quedán {opp.current_energy}pt de energía"
+            )
 
         elif attack:
             # Set attack cooldown
             attack._cooldown = attack.recharge
+            print(f"{self.name} atacó a {opp.name} con {attack.name} pero falló")
+        else:
+            print(f"{self.name} no tiene ataques disponibles")
 
     def receive_damage(self, damage: int):
         # Activate defensive skills

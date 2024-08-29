@@ -40,10 +40,25 @@ class Report:
 
     @property
     def leaderboard(self):
-        return sorted(
+        leaderboard = sorted(
             self.results.items(),
             key=lambda x: (-x[1]["wins"], x[1]["loss"], x[1]["turns"]),
         )
+        n = 0
+        print(self.battles_log)
+        for opp1, opp2 in zip(leaderboard, leaderboard[1:]):
+            print(leaderboard[n])
+            if opp1[1]["wins"] == opp2[1]["wins"]:
+                for battle in self.battles_log:
+                    if opp1[0] in [opp.name for opp in battle.values()] and opp2[0] in [
+                        opp.name for opp in battle.values()
+                    ]:
+                        if battle["loser"].name == opp1[0]:
+                            leaderboard[n + 1] = opp1
+                            leaderboard[n] = opp2
+            n += 1
+
+        return leaderboard
 
     def plot(self):
         for opp, results in self.results.items():

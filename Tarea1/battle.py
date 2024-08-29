@@ -31,6 +31,7 @@ class Battle:
 
             if self.defender.is_defeated():
                 winner, loser = self.attacker, self.defender
+                print(f"El Ganador es {winner}\n")
                 break
 
             self._update_after_turn()
