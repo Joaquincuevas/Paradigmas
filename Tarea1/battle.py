@@ -24,7 +24,7 @@ class Battle:
 
         while True:
             self.turn_count += 1
-            self._activate_turn_based_skills()
+            # self._activate_turn_based_skills()
             self.attacker.do_attack_to(
                 self.defender
             )  # Se cuenta un turno cada vez que ataca
@@ -39,13 +39,13 @@ class Battle:
         self.log = {"winner": winner, "loser": loser}
         return winner, self.turn_count
 
-    def _activate_turn_based_skills(self):
-        """Activa habilidades basadas en el turno actual."""
-        self.attacker.activate_skills("turns", self.turn_count)
+    # def _activate_turn_based_skills(self):
+    #     """Activa habilidades basadas en el turno actual."""
+    #     self.attacker.activate_skills("turns", self.turn_count)
 
     def _update_after_turn(self):
         """Actualiza habilidades y cooldowns después del turno."""
-        self.attacker.update_skill_durations()
+        # self.attacker.update_skill_durations()
         for attack in self.attacker.get_attacks():
             attack._cooldown = max(0, attack._cooldown - 1)
 

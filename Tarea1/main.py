@@ -3,7 +3,7 @@ from DataJSON import load_file, load_opponents
 
 
 def main():
-    data_file = load_file("./robots.json")
+    data_file = load_file("./robots01.json")
     opponents = load_opponents(data_file)
     league = League(opponents)
     league.play()

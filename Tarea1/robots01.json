@@ -1,0 +1,158 @@
+{
+  "robots": [
+    {
+      "name": "fuego",
+      "energy": 75,
+      "attacks": [
+        {
+          "name": "arco",
+          "type": "long",
+          "objective": "team",
+          "damage": 20,
+          "precision": 80,
+          "recharge": 1
+        },
+        {
+          "name": "cabezazo",
+          "type": "hand",
+          "objective": "robot",
+          "damage": 15,
+          "precision": 95,
+          "recharge": 0
+        }
+      ],
+      "skills": [
+        {
+          "name": "posión",
+          "trigger": "energy",
+          "trigger_value": 30,
+          "duration": 2,
+          "objective": "team",
+          "effect": "magic",
+          "effect_value": 10
+        },
+        {
+          "name": "fuerza lenta",
+          "trigger": "turns",
+          "trigger_value": 3,
+          "duration": 1,
+          "objective": "robot",
+          "effect": "steroids",
+          "effect_value": 30
+        }
+      ]
+    },
+    {
+      "name": "aguatero",
+      "energy": 80,
+      "attacks": [
+        {
+          "name": "chorro",
+          "type": "long",
+          "objective": "robot",
+          "damage": 40,
+          "precision": 70,
+          "recharge": 2
+        },
+        {
+          "name": "espada de agua",
+          "type": "sword",
+          "objective": "robot",
+          "damage": 10,
+          "precision": 95,
+          "recharge": 0
+        }
+      ],
+      "skills": [
+        {
+          "name": "cortina de agua",
+          "trigger": "attack_team",
+          "duration": 1,
+          "objective": "team",
+          "effect": "shifting",
+          "effect_value": 20
+        }
+      ]
+    },
+    {
+      "name": "malva",
+      "energy": 60,
+      "attacks": [
+        {
+          "name": "lanza de hielo",
+          "type": "sword",
+          "objective": "team",
+          "damage": 25,
+          "precision": 80,
+          "recharge": 2
+        },
+        {
+          "name": "puño de hielo",
+          "type": "hand",
+          "objective": "robot",
+          "damage": 25,
+          "precision": 95,
+          "recharge": 0
+        },
+        {
+          "name": "bola de nieve",
+          "type": "long",
+          "objective": "robot",
+          "damage": 15,
+          "precision": 80,
+          "recharge": 1
+        }
+      ],
+      "skills": [
+        {
+          "name": "escudo de hielo",
+          "trigger": "energy",
+          "trigger_value": 50,
+          "duration": 3,
+          "objective": "team",
+          "effect": "shield_type",
+          "effect_value": "long:40"
+        }
+      ]
+    },
+    {
+      "name": "pikachu",
+      "energy": 90,
+      "attacks": [
+        {
+          "name": "doble bofetada",
+          "type": "hand",
+          "objective": "robot",
+          "damage": 15,
+          "precision": 90,
+          "recharge": 0
+        },
+        {
+          "name": "megapuño",
+          "type": "hand",
+          "objective": "robot",
+          "damage": 30,
+          "precision": 95,
+          "recharge": 2
+        },
+        {
+          "name": "cabezazo",
+          "type": "hand",
+          "objective": "robot",
+          "damage": 20,
+          "precision": 85,
+          "recharge": 1
+        },
+        {
+          "name": "Puño trueno",
+          "type": "long",
+          "objective": "team",
+          "damage": 20,
+          "precision": 90,
+          "recharge": 3
+        }
+      ],
+      "skills": []
+    }
+  ]
+}

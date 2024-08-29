@@ -59,8 +59,8 @@ class Team(Opponent):
                 return True
         return False
 
-    def activate_skills(self, trigger: str, value: int | None = None):
-        self.current_robot.activate_skills(trigger, value)
+    # def activate_skills(self, trigger: str, value: int | None = None):
+    #     self.current_robot.activate_skills(trigger, value)
 
-    def update_skill_durations(self):
-        self.current_robot.update_skill_durations()
+    # def update_skill_durations(self):
+    #     self.current_robot.update_skill_durations()

@@ -7,12 +7,15 @@ from skill import Skill
 
 class Robot(Opponent):
     def __init__(
-        self, name: str, energy: int, attacks: list[Attack], skills: list[Skill]
+        self,
+        name: str,
+        energy: int,
+        attacks: list[Attack],
     ):
         self.max_energy = energy
         self.current_energy = energy
         self.attacks = attacks
-        self.skills = skills
+        # self.skills = skills
         super().__init__(name)
 
     def __repr__(self) -> str:
@@ -47,26 +50,26 @@ class Robot(Opponent):
 
     def receive_damage(self, damage: int):
         # Activate defensive skills
-        self.activate_skills("energy")
+        # self.activate_skills("energy")
         self.current_energy = max(0, self.current_energy - damage)
 
     def is_defeated(self) -> bool:
         return self.current_energy <= 0
 
     # TODO: Implement other skill triggers
-    def activate_skills(self, trigger: str, value: int | None = None):
-        for skill in self.skills:
-            if skill.trigger == trigger:
-                if trigger == "energy" and self.current_energy <= skill.trigger_value:
-                    skill.active = True
-                    skill.remaining_duration = skill.duration
-                elif trigger == "turns" and value == skill.trigger_value:
-                    skill.active = True
-                    skill.remaining_duration = skill.duration
+    # def activate_skills(self, trigger: str, value: int | None = None):
+    #     for skill in self.skills:
+    #         if skill.trigger == trigger:
+    #             if trigger == "energy" and self.current_energy <= skill.trigger_value:
+    #                 skill.active = True
+    #                 skill.remaining_duration = skill.duration
+    #             elif trigger == "turns" and value == skill.trigger_value:
+    #                 skill.active = True
+    #                 skill.remaining_duration = skill.duration
 
-    def update_skill_durations(self):
-        for skill in self.skills:
-            if skill.active:
-                skill.remaining_duration -= 1
-                if skill.remaining_duration == 0:
-                    skill.active = False
+    # def update_skill_durations(self):
+    #     for skill in self.skills:
+    #         if skill.active:
+    #             skill.remaining_duration -= 1
+    #             if skill.remaining_duration == 0:
+    #                 skill.active = False
