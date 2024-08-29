@@ -45,9 +45,7 @@ class Report:
             key=lambda x: (-x[1]["wins"], x[1]["loss"], x[1]["turns"]),
         )
         n = 0
-        print(self.battles_log)
         for opp1, opp2 in zip(leaderboard, leaderboard[1:]):
-            print(leaderboard[n])
             if opp1[1]["wins"] == opp2[1]["wins"]:
                 for battle in self.battles_log:
                     if opp1[0] in [opp.name for opp in battle.values()] and opp2[0] in [
