@@ -28,7 +28,7 @@ class Attack(BaseModel):
     type: Literal["long", "sword", "hand"]
     objetive: Literal["robot", "team"]
     damage: conint(gt=0)  # type: ignore
-    precision: conint(gt=10, lt=100)  # type: ignore
+    precision: conint(ge=10, le=100)  # type: ignore
     recharge: conint(ge=0)  # type: ignore
     _cooldown: int = 0
     _usage: int = 0
